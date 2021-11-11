@@ -8,8 +8,7 @@ pub fn handle(args: &ArgMatches) {
         Some(("dec", args)) => handle_dec(args),
         Some(("set", args)) => handle_set(args),
         Some(("mute", args)) => handle_mute(args),
-        None => println!("No subcommand was used"),
-        _ => println!("Some other subcommand was used"),
+        _ => println!("No subcommand was used"),
     }
 }
 

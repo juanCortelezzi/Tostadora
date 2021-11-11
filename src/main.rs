@@ -89,7 +89,6 @@ sound, but most importantly, it keeps me entertained with its development :)",
         Some(("sound", args)) => sound::handle(args),
         Some(("docker", args)) => docker::handle(args),
         Some(("pipewire", args)) => pipewire::handle(args),
-        None => println!("No subcommand was used"),
-        _ => println!("Some other subcommand was used"),
+        _ => println!("No subcommand was used"),
     }
 }

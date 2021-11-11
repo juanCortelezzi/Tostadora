@@ -28,7 +28,6 @@ pub fn handle(args: &ArgMatches) {
                 "pipewire-pulse",
             ],
         ),
-        None => println!("No subcommand was used"),
-        _ => println!("Some other subcommand was used"),
+        _ => println!("No subcommand was used"),
     }
 }
