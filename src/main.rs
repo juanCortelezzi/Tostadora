@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use tostadora::{docker, light, pipewire, sound, test};
+use tostadora::{docker, light, pipewire, sound};
 
 fn main() {
     let matches = App::new("Tostadora")
@@ -10,14 +10,6 @@ fn main() {
 sound, but most importantly, it keeps me entertained with its development :)",
         )
         .license("GPL-v3")
-        .subcommand(
-            App::new("test").about("Echoes back things").arg(
-                Arg::new("ECHO")
-                    .about("String to echo back")
-                    .required(true)
-                    .index(1),
-            ),
-        )
         .subcommand(
             App::new("light")
                 .about("Handles the brightness of the display")
@@ -84,7 +76,6 @@ sound, but most importantly, it keeps me entertained with its development :)",
         .get_matches();
 
     match matches.subcommand() {
-        Some(("test", args)) => test::handle(args),
         Some(("light", args)) => light::handle(args),
         Some(("sound", args)) => sound::handle(args),
         Some(("docker", args)) => docker::handle(args),

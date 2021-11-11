@@ -31,10 +31,3 @@ pub mod commands {
             .success();
     }
 }
-
-pub mod test {
-    use clap::ArgMatches;
-    pub fn handle(args: &ArgMatches) {
-        println!("{}", args.value_of("ECHO").expect("No ECHO value provided"))
-    }
-}
