@@ -19,7 +19,7 @@ pub mod commands {
         );
     }
 
-    pub fn run_cmd<I, S>(cmd: &str, args: I)
+    pub fn run_cmd<I, S>(cmd: &str, args: I) -> bool
     where
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
@@ -28,6 +28,6 @@ pub mod commands {
             .args(args)
             .status()
             .expect("Could not execute command")
-            .success();
+            .success()
     }
 }

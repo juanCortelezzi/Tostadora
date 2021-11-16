@@ -65,13 +65,15 @@ sound, but most importantly, it keeps me entertained with its development :)",
             App::new("docker")
                 .about("Starts and stops the docker service/s")
                 .subcommand(App::new("start").about("Starts docker service/s"))
-                .subcommand(App::new("stop").about("Stops docker service/s")),
+                .subcommand(App::new("stop").about("Stops docker service/s"))
+                .subcommand(App::new("status").about("Status of docker service/s")),
         )
         .subcommand(
             App::new("pipewire")
                 .about("Starts and stops the pipewire service/s")
                 .subcommand(App::new("start").about("Starts pipewire service/s"))
-                .subcommand(App::new("stop").about("Stops pipewire service/s")),
+                .subcommand(App::new("stop").about("Stops pipewire service/s"))
+                .subcommand(App::new("status").about("Status of pipewire service/s")),
         )
         .get_matches();
 
