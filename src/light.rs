@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::commands::run_cmd_notify;
+use crate::commands::TostCmd;
 
 pub fn handle(args: &ArgMatches) {
     match args.subcommand() {
@@ -13,16 +13,23 @@ pub fn handle(args: &ArgMatches) {
 
 fn handle_inc(args: &ArgMatches) {
     let signal = args.value_of("signal").expect("signal flag not found");
-    run_cmd_notify("xbacklight", ["-inc", "10"], signal);
+    TostCmd::new("xbacklight", vec!["-inc", "10"])
+        .add_notify(signal)
+        .run()
 }
 
 fn handle_dec(args: &ArgMatches) {
     let signal = args.value_of("signal").expect("signal flag not found");
-    run_cmd_notify("xbacklight", ["-dec", "10"], signal);
+    TostCmd::new("xbacklight", vec!["-dec", "10"])
+        .add_notify(signal)
+        .run()
 }
 
 fn handle_set(args: &ArgMatches) {
     let value = args.value_of("VALUE").expect("VALUE not given");
     let signal = args.value_of("signal").expect("signal flag not found");
-    run_cmd_notify("xbacklight", ["-set", value], signal);
+
+    TostCmd::new("xbacklight", vec!["-set", value])
+        .add_notify(signal)
+        .run()
 }

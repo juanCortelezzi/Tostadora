@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::commands::run_cmd;
+use crate::commands::TostCmd;
 
 pub fn handle(args: &ArgMatches) {
     match args.subcommand() {
@@ -12,9 +12,9 @@ pub fn handle(args: &ArgMatches) {
 }
 
 fn start() {
-    run_cmd(
+    TostCmd::new(
         "systemctl",
-        [
+        vec![
             "--user",
             "start",
             "pipewire.socket",
@@ -23,13 +23,14 @@ fn start() {
             "wireplumber",
             "pipewire-pulse",
         ],
-    );
+    )
+    .run()
 }
 
 fn stop() {
-    run_cmd(
+    TostCmd::new(
         "systemctl",
-        [
+        vec![
             "--user",
             "stop",
             "pipewire.socket",
@@ -38,11 +39,16 @@ fn stop() {
             "wireplumber",
             "pipewire-pulse",
         ],
-    );
+    )
+    .run()
 }
 
 pub fn is_running() -> bool {
-    run_cmd("systemctl", ["--user", "is-active", "--quiet", "pipewire"])
+    TostCmd::new(
+        "systemctl",
+        vec!["--user", "is-active", "--quiet", "pipewire"],
+    )
+    .run_status()
 }
 
 fn status() {

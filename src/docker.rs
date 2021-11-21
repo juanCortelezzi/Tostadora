@@ -1,6 +1,6 @@
 use clap::ArgMatches;
 
-use crate::commands::run_cmd;
+use crate::commands::TostCmd;
 
 pub fn handle(args: &ArgMatches) {
     match args.subcommand() {
@@ -12,15 +12,19 @@ pub fn handle(args: &ArgMatches) {
 }
 
 fn start() {
-    run_cmd("doas", ["systemctl", "start", "docker.socket", "docker"]);
+    TostCmd::new("systemctl", vec!["start", "docker.socket", "docker"])
+        .add_privilleges()
+        .run()
 }
 
 fn stop() {
-    run_cmd("doas", ["systemctl", "stop", "docker.socket", "docker"]);
+    TostCmd::new("systemctl", vec!["stop", "docker.socket", "docker"])
+        .add_privilleges()
+        .run()
 }
 
 fn is_running() -> bool {
-    run_cmd("systemctl", ["is-active", "--quiet", "docker"])
+    TostCmd::new("systemctl", vec!["is-active", "--quiet", "docker"]).run_status()
 }
 
 fn status() {
