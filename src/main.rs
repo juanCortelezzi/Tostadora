@@ -19,8 +19,8 @@ sound, but most importantly, it keeps me entertained with its development :)",
                         .long("signal")
                         .short('s')
                         .takes_value(true)
-                        .global(true)
-                        .default_value("20"),
+                        .default_value("20")
+                        .global(true),
                 )
                 .subcommand(
                     App::new("set")
@@ -33,7 +33,18 @@ sound, but most importantly, it keeps me entertained with its development :)",
                         ),
                 )
                 .subcommand(App::new("inc").about("Increases the brightness of the display by 10"))
-                .subcommand(App::new("dec").about("Decreases the brightness of the display by 10")),
+                .subcommand(App::new("dec").about("Decreases the brightness of the display by 10"))
+                .subcommand(
+                    App::new("get")
+                        .about("Shows the brightness percentage of the display")
+                        .arg(
+                            Arg::new("format")
+                                .about("Pretty display")
+                                .long("format")
+                                .short('f')
+                                .takes_value(false),
+                        ),
+                ),
         )
         .subcommand(
             App::new("sound")
@@ -59,7 +70,18 @@ sound, but most importantly, it keeps me entertained with its development :)",
                 )
                 .subcommand(App::new("inc").about("Increases volume by 10"))
                 .subcommand(App::new("dec").about("Decreases volume by 10"))
-                .subcommand(App::new("mute").about("Toggles mute")),
+                .subcommand(App::new("mute").about("Toggles mute"))
+                .subcommand(
+                    App::new("get")
+                        .about("Shows the volume percentage of the system")
+                        .arg(
+                            Arg::new("format")
+                                .about("Pretty display")
+                                .long("format")
+                                .short('f')
+                                .takes_value(false),
+                        ),
+                ),
         )
         .subcommand(
             App::new("docker")

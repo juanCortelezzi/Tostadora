@@ -7,6 +7,7 @@ pub fn handle(args: &ArgMatches) {
         Some(("inc", args)) => handle_inc(args),
         Some(("dec", args)) => handle_dec(args),
         Some(("set", args)) => handle_set(args),
+        Some(("get", args)) => handle_get(args),
         _ => println!("No subcommand was used"),
     }
 }
@@ -32,4 +33,19 @@ fn handle_set(args: &ArgMatches) {
     TostCmd::new("xbacklight", vec!["-set", value])
         .add_notify(signal)
         .run()
+}
+
+fn handle_get(args: &ArgMatches) {
+    // Parse brightness from byte array to string
+    let bri_parsed =
+        String::from_utf8(TostCmd::new("xbacklight", vec!["-get"]).run_output().stdout)
+            .expect("could not parse command output to utf8");
+
+    let bri = bri_parsed.trim();
+
+    if args.is_present("format") {
+        println!("[  {} ]", bri);
+    } else {
+        println!("bri: {}", bri);
+    }
 }
