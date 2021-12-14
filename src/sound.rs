@@ -14,6 +14,7 @@ pub fn handle(args: &ArgMatches) {
 }
 
 fn handle_inc(args: &ArgMatches) {
+    // signal is a defined value because it has a default
     let signal = args.value_of("signal").expect("signal flag not found");
     TostCmd::new("pulsemixer", vec!["--change-volume", "+10"])
         .add_notify(signal)
@@ -21,6 +22,7 @@ fn handle_inc(args: &ArgMatches) {
 }
 
 fn handle_dec(args: &ArgMatches) {
+    // signal is a defined value because it has a default
     let signal = args.value_of("signal").expect("signal flag not found");
     TostCmd::new("pulsemixer", vec!["--change-volume", "-10"])
         .add_notify(signal)
@@ -36,6 +38,7 @@ fn handle_set(args: &ArgMatches) {
 }
 
 fn handle_mute(args: &ArgMatches) {
+    // signal is a defined value because it has a default
     let signal = args.value_of("signal").expect("signal flag not found");
     TostCmd::new("pulsemixer", vec!["--toggle-mute"])
         .add_notify(signal)

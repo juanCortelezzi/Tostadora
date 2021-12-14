@@ -12,6 +12,7 @@ pub fn handle(args: &ArgMatches) {
 }
 
 fn start() {
+    // systemctl --user start pipewire.socket pipewire-pulse.socket pipewire wireplumber pipewire-pulse
     TostCmd::new(
         "systemctl",
         vec![
@@ -28,6 +29,7 @@ fn start() {
 }
 
 fn stop() {
+    // systemctl --user stop pipewire.socket pipewire-pulse.socket pipewire wireplumber pipewire-pulse
     TostCmd::new(
         "systemctl",
         vec![
@@ -44,6 +46,7 @@ fn stop() {
 }
 
 pub fn is_running() -> bool {
+    // systemctl --user is-active --quit pipewire
     TostCmd::new(
         "systemctl",
         vec!["--user", "is-active", "--quiet", "pipewire"],
