@@ -12,18 +12,17 @@ pub fn handle(args: &ArgMatches) {
 }
 
 fn start() {
-    TostCmd::new("systemctl", vec!["start", "docker.socket", "docker"])
-        .add_privilleges()
-        .run()
+    // systemctl start docker.socket docker
+    TostCmd::new("systemctl", vec!["start", "docker.socket", "docker"]).run()
 }
 
 fn stop() {
-    TostCmd::new("systemctl", vec!["stop", "docker.socket", "docker"])
-        .add_privilleges()
-        .run()
+    // systemctl stop docker.socket docker
+    TostCmd::new("systemctl", vec!["stop", "docker.socket", "docker"]).run()
 }
 
 fn is_running() -> bool {
+    // systemctl is-active --quiet docker
     TostCmd::new("systemctl", vec!["is-active", "--quiet", "docker"]).run_status()
 }
 
