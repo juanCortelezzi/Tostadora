@@ -5,10 +5,7 @@ fn main() {
     let matches = App::new("Tostadora")
         .version("0.1")
         .author("Juan Bautista Cortelezzi.")
-        .about(
-            "It can manage processes in the system and control brightness as well as
-sound, but most importantly, it keeps me entertained with its development :)",
-        )
+        .about("It can manage processes in the system and control brightness as well as sound, but most importantly, it keeps me entertained with its development :)")
         .license("GPL-v3")
         .subcommand(
             App::new("light")
