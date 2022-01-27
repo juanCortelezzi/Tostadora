@@ -1,5 +1,10 @@
+mod commands;
+mod docker;
+mod light;
+mod pipewire;
+mod sound;
+
 use clap::{App, Arg};
-use tostadora::{docker, light, pipewire, sound};
 
 fn main() {
     let matches = App::new("Tostadora")
