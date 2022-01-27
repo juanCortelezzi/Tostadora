@@ -1,6 +1,13 @@
-use clap::ArgMatches;
-
 use crate::commands::TostCmd;
+use clap::{App, ArgMatches};
+
+pub fn get_command() -> App<'static> {
+    App::new("pipewire")
+        .about("Starts and stops the pipewire service/s")
+        .subcommand(App::new("start").about("Starts pipewire service/s"))
+        .subcommand(App::new("stop").about("Stops pipewire service/s"))
+        .subcommand(App::new("status").about("Status of pipewire service/s"))
+}
 
 pub fn handle(args: &ArgMatches) {
     match args.subcommand() {
@@ -15,7 +22,7 @@ fn start() {
     // systemctl --user start pipewire.socket pipewire-pulse.socket pipewire wireplumber pipewire-pulse
     TostCmd::new(
         "systemctl",
-        vec![
+        &[
             "--user",
             "start",
             "pipewire.socket",
@@ -32,7 +39,7 @@ fn stop() {
     // systemctl --user stop pipewire.socket pipewire-pulse.socket pipewire wireplumber pipewire-pulse
     TostCmd::new(
         "systemctl",
-        vec![
+        &[
             "--user",
             "stop",
             "pipewire.socket",
@@ -47,11 +54,7 @@ fn stop() {
 
 pub fn is_running() -> bool {
     // systemctl --user is-active --quit pipewire
-    TostCmd::new(
-        "systemctl",
-        vec!["--user", "is-active", "--quiet", "pipewire"],
-    )
-    .run_status()
+    TostCmd::new("systemctl", &["--user", "is-active", "--quiet", "pipewire"]).run_status()
 }
 
 fn status() {

@@ -2,12 +2,12 @@ use std::process::{Command, Output};
 
 pub struct TostCmd<'a> {
     cmd: &'a str,
-    args: Vec<&'a str>,
+    args: &'a [&'a str],
     needs_notify: (bool, &'a str),
 }
 
 impl<'a> TostCmd<'a> {
-    pub fn new(cmd: &'a str, args: Vec<&'a str>) -> Self {
+    pub fn new(cmd: &'a str, args: &'a [&'a str]) -> Self {
         TostCmd {
             cmd,
             args,
@@ -22,7 +22,7 @@ impl<'a> TostCmd<'a> {
 
     pub fn run(self) {
         Command::new(self.cmd)
-            .args(&self.args)
+            .args(self.args)
             .status()
             .expect("Could not execute command");
 
@@ -31,7 +31,7 @@ impl<'a> TostCmd<'a> {
 
     pub fn run_status(self) -> bool {
         let res = Command::new(self.cmd)
-            .args(&self.args)
+            .args(self.args)
             .status()
             .expect("Could not execute command")
             .success();
@@ -43,7 +43,7 @@ impl<'a> TostCmd<'a> {
 
     pub fn run_output(self) -> Output {
         let res = Command::new(self.cmd)
-            .args(&self.args)
+            .args(self.args)
             .output()
             .expect("Could not execute command");
 

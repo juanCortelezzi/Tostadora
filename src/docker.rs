@@ -1,6 +1,13 @@
-use clap::ArgMatches;
-
 use crate::commands::TostCmd;
+use clap::{App, ArgMatches};
+
+pub fn get_command() -> App<'static> {
+    App::new("docker")
+        .about("Starts and stops the docker service/s")
+        .subcommand(App::new("start").about("Starts docker service/s"))
+        .subcommand(App::new("stop").about("Stops docker service/s"))
+        .subcommand(App::new("status").about("Status of docker service/s"))
+}
 
 pub fn handle(args: &ArgMatches) {
     match args.subcommand() {
@@ -13,17 +20,17 @@ pub fn handle(args: &ArgMatches) {
 
 fn start() {
     // systemctl start docker.socket docker
-    TostCmd::new("systemctl", vec!["start", "docker.socket", "docker"]).run()
+    TostCmd::new("systemctl", &["start", "docker.socket", "docker"]).run()
 }
 
 fn stop() {
     // systemctl stop docker.socket docker
-    TostCmd::new("systemctl", vec!["stop", "docker.socket", "docker"]).run()
+    TostCmd::new("systemctl", &["stop", "docker.socket", "docker"]).run()
 }
 
 fn is_running() -> bool {
     // systemctl is-active --quiet docker
-    TostCmd::new("systemctl", vec!["is-active", "--quiet", "docker"]).run_status()
+    TostCmd::new("systemctl", &["is-active", "--quiet", "docker"]).run_status()
 }
 
 fn status() {
