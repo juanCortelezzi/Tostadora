@@ -1,6 +1,5 @@
-use clap::{App, Arg, ArgMatches};
-
 use crate::commands::TostCmd;
+use clap::{App, Arg, ArgMatches};
 
 pub fn get_command() -> App<'static> {
     App::new("light")

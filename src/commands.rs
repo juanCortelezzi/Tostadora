@@ -3,7 +3,7 @@ use std::process::{Command, Output};
 pub struct TostCmd<'a> {
     cmd: &'a str,
     args: &'a [&'a str],
-    needs_notify: (bool, &'a str),
+    needs_notify: Option<&'a str>,
 }
 
 impl<'a> TostCmd<'a> {
@@ -11,12 +11,12 @@ impl<'a> TostCmd<'a> {
         TostCmd {
             cmd,
             args,
-            needs_notify: (false, ""),
+            needs_notify: None,
         }
     }
 
     pub fn add_notify(mut self, signal: &'a str) -> Self {
-        self.needs_notify = (true, signal);
+        self.needs_notify = Some(signal);
         self
     }
 
@@ -24,7 +24,7 @@ impl<'a> TostCmd<'a> {
         Command::new(self.cmd)
             .args(self.args)
             .status()
-            .expect("Could not execute command");
+            .expect("to execute command");
 
         self.notify();
     }
@@ -33,7 +33,7 @@ impl<'a> TostCmd<'a> {
         let res = Command::new(self.cmd)
             .args(self.args)
             .status()
-            .expect("Could not execute command")
+            .expect("to execute command")
             .success();
 
         self.notify();
@@ -45,7 +45,7 @@ impl<'a> TostCmd<'a> {
         let res = Command::new(self.cmd)
             .args(self.args)
             .output()
-            .expect("Could not execute command");
+            .expect("to execute command");
 
         self.notify();
 
@@ -53,13 +53,12 @@ impl<'a> TostCmd<'a> {
     }
 
     fn notify(&self) {
-        let (needs, signal) = self.needs_notify;
-        if needs {
+        if let Some(signal) = self.needs_notify {
             Command::new("pkill")
                 .arg(format!("-RTMIN+{}", signal))
                 .arg("dwmblocks")
                 .status()
-                .expect("Could not execute command");
+                .expect("to execute command");
         }
     }
 }
