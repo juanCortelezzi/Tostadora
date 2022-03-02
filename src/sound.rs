@@ -1,13 +1,12 @@
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 
 use crate::commands::TostCmd;
 
-pub fn get_command() -> App<'static> {
-    App::new("sound")
+pub fn get_command() -> Command<'static> {
+    Command::new("sound")
         .about("Handles the volume of the system")
         .arg(
             Arg::new("signal")
-                .about("The signal id for the sound block in dwmblocks")
                 .long("signal")
                 .short('s')
                 .takes_value(true)
@@ -15,24 +14,18 @@ pub fn get_command() -> App<'static> {
                 .default_value("10"),
         )
         .subcommand(
-            App::new("set")
+            Command::new("set")
                 .about("Sets the volume to the given value")
-                .arg(
-                    Arg::new("VALUE")
-                        .about("Percentage to set the volume of the system")
-                        .required(true)
-                        .index(1),
-                ),
+                .arg(Arg::new("VALUE").required(true).index(1)),
         )
-        .subcommand(App::new("inc").about("Increases volume by 10"))
-        .subcommand(App::new("dec").about("Decreases volume by 10"))
-        .subcommand(App::new("mute").about("Toggles mute"))
+        .subcommand(Command::new("inc").about("Increases volume by 10"))
+        .subcommand(Command::new("dec").about("Decreases volume by 10"))
+        .subcommand(Command::new("mute").about("Toggles mute"))
         .subcommand(
-            App::new("get")
+            Command::new("get")
                 .about("Shows the volume percentage of the system")
                 .arg(
                     Arg::new("format")
-                        .about("Pretty display")
                         .long("format")
                         .short('f')
                         .takes_value(false),

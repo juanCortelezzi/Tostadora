@@ -1,12 +1,12 @@
 use crate::commands::TostCmd;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
 
-pub fn get_command() -> App<'static> {
-    App::new("docker")
+pub fn get_command() -> Command<'static> {
+    Command::new("docker")
         .about("Starts and stops the docker service/s")
-        .subcommand(App::new("start").about("Starts docker service/s"))
-        .subcommand(App::new("stop").about("Stops docker service/s"))
-        .subcommand(App::new("status").about("Status of docker service/s"))
+        .subcommand(Command::new("start").about("Starts docker service/s"))
+        .subcommand(Command::new("stop").about("Stops docker service/s"))
+        .subcommand(Command::new("status").about("Status of docker service/s"))
 }
 
 pub fn handle(args: &ArgMatches) {

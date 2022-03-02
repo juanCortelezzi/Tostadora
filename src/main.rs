@@ -5,11 +5,10 @@ mod pipewire;
 mod sound;
 
 fn main() {
-    let matches = clap::App::new("Tostadora")
+    let matches = clap::Command::new("Tostadora")
         .version("0.1")
         .author("Juan Bautista Cortelezzi.")
         .about("It can manage processes in the system and control brightness as well as sound, but most importantly, it keeps me entertained with its development :)")
-        .license("GPL-v3")
         .subcommand(light::get_command())
         .subcommand(sound::get_command())
         .subcommand(docker::get_command())

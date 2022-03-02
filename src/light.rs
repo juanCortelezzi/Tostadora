@@ -1,12 +1,11 @@
 use crate::commands::TostCmd;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 
-pub fn get_command() -> App<'static> {
-    App::new("light")
+pub fn get_command() -> Command<'static> {
+    Command::new("light")
         .about("Handles the brightness of the display")
         .arg(
             Arg::new("signal")
-                .about("The signal id for the light block in dwmblocks")
                 .long("signal")
                 .short('s')
                 .takes_value(true)
@@ -14,23 +13,17 @@ pub fn get_command() -> App<'static> {
                 .global(true),
         )
         .subcommand(
-            App::new("set")
+            Command::new("set")
                 .about("Sets the brightness of the display to the given value")
-                .arg(
-                    Arg::new("VALUE")
-                        .about("Percentage to set the brightness of the display")
-                        .required(true)
-                        .index(1),
-                ),
+                .arg(Arg::new("VALUE").required(true).index(1)),
         )
-        .subcommand(App::new("inc").about("Increases the brightness of the display by 10"))
-        .subcommand(App::new("dec").about("Decreases the brightness of the display by 10"))
+        .subcommand(Command::new("inc").about("Increases the brightness of the display by 10"))
+        .subcommand(Command::new("dec").about("Decreases the brightness of the display by 10"))
         .subcommand(
-            App::new("get")
+            Command::new("get")
                 .about("Shows the brightness percentage of the display")
                 .arg(
                     Arg::new("format")
-                        .about("Pretty display")
                         .long("format")
                         .short('f')
                         .takes_value(false),
