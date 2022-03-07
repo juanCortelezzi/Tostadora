@@ -1,4 +1,4 @@
-use crate::commands::TostCmd;
+use crate::config::{CmdConfig, LightConfig};
 use clap::{Arg, ArgMatches, Command};
 
 pub fn get_command() -> Command<'static> {
@@ -19,61 +19,30 @@ pub fn get_command() -> Command<'static> {
         )
         .subcommand(Command::new("inc").about("Increases the brightness of the display by 10"))
         .subcommand(Command::new("dec").about("Decreases the brightness of the display by 10"))
-        .subcommand(
-            Command::new("get")
-                .about("Shows the brightness percentage of the display")
-                .arg(
-                    Arg::new("format")
-                        .long("format")
-                        .short('f')
-                        .takes_value(false),
-                ),
-        )
+        .subcommand(Command::new("get").about("Shows the brightness percentage of the display"))
 }
 
-pub fn handle(args: &ArgMatches) {
+pub fn handle(args: &ArgMatches, command: LightConfig) {
     match args.subcommand() {
-        Some(("inc", args)) => handle_inc(args),
-        Some(("dec", args)) => handle_dec(args),
-        Some(("set", args)) => handle_set(args),
-        Some(("get", args)) => handle_get(args),
+        Some(("inc", args)) => run_command(args, command.inc),
+        Some(("dec", args)) => run_command(args, command.dec),
+        Some(("set", args)) => run_command(args, command.set),
+        Some(("get", args)) => run_command(args, command.get),
         _ => println!("No subcommand was used"),
     }
 }
 
-fn handle_inc(args: &ArgMatches) {
-    let signal = args.value_of("signal").expect("signal flag not found");
-    TostCmd::new("xbacklight", &["-inc", "10"])
-        .add_notify(signal)
-        .run()
-}
+fn run_command(args: &ArgMatches, command: CmdConfig) {
+    // let signal = args.value_of("signal").expect("signal flag not found");
+    let mut process = std::process::Command::new(command.cmd);
 
-fn handle_dec(args: &ArgMatches) {
-    let signal = args.value_of("signal").expect("signal flag not found");
-    TostCmd::new("xbacklight", &["-dec", "10"])
-        .add_notify(signal)
-        .run()
-}
+    if let Some(mut arguments) = command.args {
+        if let Some(value) = args.value_of("VALUE") {
+            arguments.push(value.to_string());
+        }
 
-fn handle_set(args: &ArgMatches) {
-    let value = args.value_of("VALUE").expect("VALUE not given");
-    let signal = args.value_of("signal").expect("signal flag not found");
-
-    TostCmd::new("xbacklight", &["-set", value])
-        .add_notify(signal)
-        .run()
-}
-
-fn handle_get(args: &ArgMatches) {
-    // Parse brightness from byte array to string
-    let bri_parsed = String::from_utf8(TostCmd::new("xbacklight", &["-get"]).run_output().stdout)
-        .expect("could not parse command output to utf8");
-
-    let bri = bri_parsed.trim();
-
-    if args.is_present("format") {
-        println!("[  {} ]", bri);
-    } else {
-        println!("bri: {}", bri);
+        process.args(arguments);
     }
+
+    process.status().expect("to execute command");
 }

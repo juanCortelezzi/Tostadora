@@ -5,4 +5,7 @@ buildrel:
 	cargo build --release
 
 install: buildrel
-	sudo cp ./target/release/tostadora /usr/bin/tostadora
+	# you can change the name of the bin by changing the name on the destination
+	# of the copy command, or by changing the name attribute on the cargo.toml
+	# file
+	sudo cp ./target/release/tost /usr/bin/tost

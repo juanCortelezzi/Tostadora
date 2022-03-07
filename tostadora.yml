@@ -1,0 +1,94 @@
+light:
+  inc:
+    cmd: xbacklight
+    args:
+      - "-inc"
+      - "10"
+  dec:
+    cmd: xbacklight
+    args:
+      - "-dec"
+      - "10"
+  set:
+    cmd: xbacklight
+    args:
+      - "-set"
+  get:
+    cmd: xbacklight
+    args:
+      - "-get"
+
+sound:
+  inc:
+    cmd: pulsemixer
+    args:
+      - "--change-volume"
+      - "+10"
+  dec:
+    cmd: pulsemixer
+    args:
+      - "--change-volume"
+      - "-10"
+  set:
+    cmd: pulsemixer
+    args:
+      - "--set-volume"
+  mute:
+    cmd: pulsemixer
+    args:
+      - "--toggle-mute"
+  get:
+    cmd: pulsemixer
+    args:
+      - "--get-volume"
+      - "--get-mute"
+
+services:
+  - 
+    name: docker
+    start:
+      cmd: systemctl
+      args:
+        - "start"
+        - "docker.socket"
+        - "docker"
+    stop:
+      cmd: systemctl
+      args:
+        - "stop"
+        - "docker.socket"
+        - "docker"
+    status:
+      cmd: systemctl
+      args:
+        - "is-active"
+        - "docker"
+
+  - 
+    name: pipewire
+    start:
+      cmd: systemctl
+      args:
+        - "--user"
+        - "start"
+        - "pipewire.socket"
+        - "pipewire-pulse.socket"
+        - "pipewire"
+        - "wireplumber"
+        - "pipewire-pulse"
+    stop:
+      cmd: systemctl
+      args:
+        - "--user"
+        - "stop"
+        - "pipewire.socket"
+        - "pipewire-pulse.socket"
+        - "pipewire"
+        - "wireplumber"
+        - "pipewire-pulse"
+    status:
+      cmd: systemctl
+      args:
+        - "--user"
+        - "is-active"
+        - "pipewire"
