@@ -50,14 +50,15 @@ services:
       cmd: systemctl
       args:
         - "start"
-        - "docker.socket"
         - "docker"
+        - "containerd"
     stop:
       cmd: systemctl
       args:
         - "stop"
-        - "docker.socket"
         - "docker"
+        - "docker.socket"
+        - "containerd"
     status:
       cmd: systemctl
       args:
