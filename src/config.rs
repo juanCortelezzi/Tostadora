@@ -40,8 +40,8 @@ pub struct Config {
 }
 
 pub fn get_config() -> Config {
-    let home = std::env::var("HOME").unwrap();
-    let config_file = format!("{}/Documents/Rust-programmes/tostadora/tostadora.yml", home);
+    let config_home = std::env::var("XDG_CONFIG_HOME").unwrap();
+    let config_file = format!("{}/tostadora/tostadora.yml", config_home);
 
     let contents =
         fs::read_to_string(config_file).expect("Something went wrong reading the config file");
