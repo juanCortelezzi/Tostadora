@@ -4,15 +4,21 @@ light:
     args:
       - "-inc"
       - "10"
+    signal: 20
+
   dec:
     cmd: xbacklight
     args:
       - "-dec"
       - "10"
+    signal: 20
+
   set:
     cmd: xbacklight
     args:
       - "-set"
+    signal: 20
+
   get:
     cmd: xbacklight
     args:
@@ -24,19 +30,27 @@ sound:
     args:
       - "--change-volume"
       - "+10"
+    signal: 10
+
   dec:
     cmd: pulsemixer
     args:
       - "--change-volume"
       - "-10"
+    signal: 10
+
   set:
     cmd: pulsemixer
     args:
       - "--set-volume"
+    signal: 10
+
   mute:
     cmd: pulsemixer
     args:
       - "--toggle-mute"
+    signal: 10
+
   get:
     cmd: pulsemixer
     args:

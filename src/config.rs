@@ -5,6 +5,7 @@ use std::fs;
 pub struct CmdConfig {
     pub cmd: String,
     pub args: Option<Vec<String>>,
+    pub signal: Option<i32>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -25,21 +25,21 @@ pub fn get_command() -> Command<'static> {
 
 pub fn handle(args: &ArgMatches, command: SoundConfig) {
     match args.subcommand() {
-        Some(("inc", args)) => run_command(args, command.inc),
-        Some(("dec", args)) => run_command(args, command.dec),
-        Some(("set", args)) => run_command(args, command.set),
-        Some(("get", args)) => run_command(args, command.get),
-        Some(("mute", args)) => run_command(args, command.mute),
+        Some(("inc", _args)) => run_command(command.inc, None),
+        Some(("dec", _args)) => run_command(command.dec, None),
+        Some(("get", _args)) => run_command(command.get, None),
+        Some(("mute", _args)) => run_command(command.mute, None),
+        Some(("set", args)) => run_command(command.set, args.value_of("VALUE")),
         _ => println!("No subcommand was used"),
     }
 }
 
-fn run_command(args: &ArgMatches, command: CmdConfig) {
+fn run_command(command: CmdConfig, value: Option<&str>) {
     // let signal = args.value_of("signal").expect("signal flag not found");
     let mut process = std::process::Command::new(command.cmd);
 
     if let Some(mut arguments) = command.args {
-        if let Some(value) = args.value_of("VALUE") {
+        if let Some(value) = value {
             arguments.push(value.to_string());
         }
 
@@ -47,4 +47,12 @@ fn run_command(args: &ArgMatches, command: CmdConfig) {
     }
 
     process.status().expect("to execute command");
+
+    if let Some(signal) = command.signal {
+        std::process::Command::new("pkill")
+            .arg(format!("-RTMIN+{}", signal))
+            .arg("dwmblocks")
+            .status()
+            .expect("to execute command");
+    }
 }
