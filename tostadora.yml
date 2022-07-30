@@ -61,14 +61,16 @@ services:
   - 
     name: docker
     start:
-      cmd: systemctl
+      cmd: sudo
       args:
+        - "systemctl"
         - "start"
         - "docker"
         - "containerd"
     stop:
-      cmd: systemctl
+      cmd: sudo
       args:
+        - "systemctl"
         - "stop"
         - "docker"
         - "docker.socket"
